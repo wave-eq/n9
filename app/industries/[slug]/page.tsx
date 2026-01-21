@@ -12,6 +12,12 @@ import { industries } from '@/content/industries'
 import { products } from '@/content/products'
 import { services } from '@/content/services'
 
+export async function generateStaticParams() {
+  return industries.map((industry) => ({
+    slug: industry.slug,
+  }))
+}
+
 export default function IndustryDetailPage() {
   const params = useParams()
 
