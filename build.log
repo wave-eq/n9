@@ -1,0 +1,20 @@
+STEP 1/12: FROM node:18-alpine
+STEP 2/12: WORKDIR /app
+--> 8ce05c581532
+STEP 3/12: COPY package.json ./
+--> f59ac14c8709
+STEP 4/12: RUN npm install --verbose --no-audit --no-fund --prefer-offline --legacy-peer-deps ||     npm install --verbose --no-audit --no-fund --legacy-peer-deps
+npm verbose cli /usr/local/bin/node /usr/local/bin/npm
+npm info using npm@10.8.2
+npm info using node@v18.20.8
+npm verbose title npm install
+npm verbose argv "install" "--loglevel" "verbose" "--no-audit" "--no-fund" "--prefer-offline" "--legacy-peer-deps"
+npm verbose logfile logs-max:10 dir:/root/.npm/_logs/2026-01-21T16_18_10_443Z-
+npm verbose logfile /root/.npm/_logs/2026-01-21T16_18_10_443Z-debug-0.log
+npm http fetch GET https://registry.npmjs.org/npm attempt 1 failed with SELF_SIGNED_CERT_IN_CHAIN
+npm http fetch GET https://registry.npmjs.org/next attempt 1 failed with SELF_SIGNED_CERT_IN_CHAIN
+npm http fetch GET https://registry.npmjs.org/npm attempt 2 failed with SELF_SIGNED_CERT_IN_CHAIN
+npm http fetch GET https://registry.npmjs.org/next attempt 2 failed with SELF_SIGNED_CERT_IN_CHAIN
+npm http fetch GET https://registry.npmjs.org/next attempt 3 failed with SELF_SIGNED_CERT_IN_CHAIN
+npm http fetch GET https://registry.npmjs.org/npm attempt 3 failed with SELF_SIGNED_CERT_IN_CHAIN
+npm http fetch GET https://registry.npmjs.org/react attempt 1 failed with SELF_SIGNED_CERT_IN_CHAIN

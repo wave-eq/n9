@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  ninethray-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ninethray-website
+    ports:
+      - "98878:98878"
+    environment:
+      - NODE_ENV=production
+      - PORT=98878
+      - HOSTNAME=0.0.0.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:98878"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

@@ -1,0 +1,29 @@
+# Fast build with npm cache disabled and verbose output
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json ./
+
+# Install dependencies with verbose output and no cache
+RUN npm install --verbose --no-audit --no-fund --prefer-offline --legacy-peer-deps || \
+    npm install --verbose --no-audit --no-fund --legacy-peer-deps
+
+# Copy all application files
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Expose port
+EXPOSE 98878
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=98878
+ENV HOSTNAME=0.0.0.0
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Start the application
+CMD ["npm", "start"]
