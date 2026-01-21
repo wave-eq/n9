@@ -15,13 +15,6 @@ import Dialog from '@/components/ui/Dialog'
 import Input from '@/components/ui/Input'
 import Textarea from '@/components/ui/Textarea'
 
-export async function generateStaticParams() {
-  return products.map((product) => ({
-    category: product.category,
-    slug: product.slug,
-  }))
-}
-
 export default function ProductDetailPage() {
   const params = useParams()
   const [demoModalOpen, setDemoModalOpen] = useState(false)

@@ -11,13 +11,6 @@ import Button from '@/components/ui/Button'
 import Accordion from '@/components/ui/Accordion'
 import { services } from '@/content/services'
 
-export async function generateStaticParams() {
-  return services.map((service) => ({
-    category: service.category,
-    slug: service.slug,
-  }))
-}
-
 export default function ServiceDetailPage() {
   const params = useParams()
 
