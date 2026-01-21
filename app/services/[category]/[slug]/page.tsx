@@ -1,4 +1,6 @@
-import { services } from '@/content/services'
+'use client'
+
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, CheckCircle2 } from 'lucide-react'
 import Hero from '@/components/sections/Hero'
@@ -7,6 +9,7 @@ import CTASection from '@/components/sections/CTASection'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Accordion from '@/components/ui/Accordion'
+import { services } from '@/content/services'
 
 export async function generateStaticParams() {
   return services.map((service) => ({
@@ -15,7 +18,9 @@ export async function generateStaticParams() {
   }))
 }
 
-export default function ServiceDetailPage({ params }: { params: { category: string; slug: string } }) {
+export default function ServiceDetailPage() {
+  const params = useParams()
+
   const service = services.find(
     s => s.category === params.category && s.slug === params.slug
   )

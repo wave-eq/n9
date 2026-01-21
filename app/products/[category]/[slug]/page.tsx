@@ -1,12 +1,19 @@
-import { products } from '@/content/products'
+'use client'
+
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, CheckCircle2, Download } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Download, Play } from 'lucide-react'
 import Hero from '@/components/sections/Hero'
 import SectionHeading from '@/components/sections/SectionHeading'
 import CTASection from '@/components/sections/CTASection'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Accordion from '@/components/ui/Accordion'
+import { products } from '@/content/products'
+import { useState } from 'react'
+import Dialog from '@/components/ui/Dialog'
+import Input from '@/components/ui/Input'
+import Textarea from '@/components/ui/Textarea'
 
 export async function generateStaticParams() {
   return products.map((product) => ({
@@ -15,7 +22,12 @@ export async function generateStaticParams() {
   }))
 }
 
-export default function ProductDetailPage({ params }: { params: { category: string; slug: string } }) {
+export default function ProductDetailPage() {
+  const params = useParams()
+  const [demoModalOpen, setDemoModalOpen] = useState(false)
+  const [formData, setFormData] = useState({ name: '', email: '', organization: '', message: '' })
+  const [submitted, setSubmitted] = useState(false)
+
   const product = products.find(
     p => p.category === params.category && p.slug === params.slug
   )
@@ -31,6 +43,17 @@ export default function ProductDetailPage({ params }: { params: { category: stri
         </div>
       </div>
     )
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Demo request:', formData)
+    setSubmitted(true)
+    setTimeout(() => {
+      setDemoModalOpen(false)
+      setSubmitted(false)
+      setFormData({ name: '', email: '', organization: '', message: '' })
+    }, 2000)
   }
 
   return (
@@ -54,11 +77,10 @@ export default function ProductDetailPage({ params }: { params: { category: stri
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/contact">
-              <Button size="lg" variant="primary">
-                Request Demo
-              </Button>
-            </Link>
+            <Button size="lg" variant="primary" onClick={() => setDemoModalOpen(true)}>
+              <Play size={20} className="mr-2" />
+              Request Demo
+            </Button>
             <Button size="lg" variant="secondary">
               <Download size={20} className="mr-2" />
               Download Datasheet
@@ -193,6 +215,51 @@ export default function ProductDetailPage({ params }: { params: { category: stri
         title="Ready to Deploy?"
         description="Speak with our team to discuss deployment, training, and support options."
       />
+
+      <Dialog
+        open={demoModalOpen}
+        onClose={() => setDemoModalOpen(false)}
+        title="Request a Demo"
+      >
+        {submitted ? (
+          <div className="text-center py-8">
+            <CheckCircle2 className="text-success mx-auto mb-4" size={48} />
+            <h3 className="font-heading text-xl font-semibold mb-2">Request Submitted</h3>
+            <p className="text-text-muted">Our team will contact you within 1-2 business days.</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              label="Name"
+              required
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
+            <Input
+              label="Email"
+              type="email"
+              required
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+            <Input
+              label="Organization"
+              required
+              value={formData.organization}
+              onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
+            />
+            <Textarea
+              label="Message (Optional)"
+              placeholder="Tell us about your requirements..."
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            />
+            <Button type="submit" variant="primary" className="w-full">
+              Submit Request
+            </Button>
+          </form>
+        )}
+      </Dialog>
     </>
   )
 }

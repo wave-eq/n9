@@ -1,6 +1,6 @@
-import { industries } from '@/content/industries'
-import { products } from '@/content/products'
-import { services } from '@/content/services'
+'use client'
+
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, CheckCircle2 } from 'lucide-react'
 import Hero from '@/components/sections/Hero'
@@ -8,6 +8,9 @@ import SectionHeading from '@/components/sections/SectionHeading'
 import CTASection from '@/components/sections/CTASection'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import { industries } from '@/content/industries'
+import { products } from '@/content/products'
+import { services } from '@/content/services'
 
 export async function generateStaticParams() {
   return industries.map((industry) => ({
@@ -15,7 +18,9 @@ export async function generateStaticParams() {
   }))
 }
 
-export default function IndustryDetailPage({ params }: { params: { slug: string } }) {
+export default function IndustryDetailPage() {
+  const params = useParams()
+
   const industry = industries.find(i => i.slug === params.slug)
 
   if (!industry) {
